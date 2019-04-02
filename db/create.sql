@@ -107,8 +107,9 @@ create table if not exists DIVISION_POSITION_EMPLOYEE (
         on delete cascade
 );
 
-create trigger delete_employee after delete on employee
+create trigger delete_employee before delete on EMPLOYEE
 for each row begin
-    delete from DIVISION_POSITION_EMPLOYEE where  job_history_id in
+    delete from DIVISION_POSITION_EMPLOYEE where job_history_id in
         (select job_history_id from JOB_HISTORY where employee_id = old.employee_id);
+    delete from JOB_HISTORY h where h.employee_id = old.employee_id;
 end;

@@ -6,13 +6,23 @@ import java.util.List;
 import java.util.Set;
 
 public class DivPos {
+    private int id;
+
 	private Division division;
-	
+
 	private Position position;
-	
+
 	private int numberPositions;
-	
+
 	private Set<JobHistory> histories;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
 	public Division getDivision() {
 		return division;
@@ -37,7 +47,7 @@ public class DivPos {
 	public void setNumberPositions(int numberPositions) {
 		this.numberPositions = numberPositions;
 	}
-	
+
 	protected Set<JobHistory> getHistoriesInternal() {
 		return histories;
 	}
@@ -45,13 +55,13 @@ public class DivPos {
 	protected void setHistoriesInternal(Set<JobHistory> histories) {
 		this.histories = histories;
 	}
-	
+
 	public List<JobHistory> getHistories() {
 		List<JobHistory> sortedHistories = new ArrayList<JobHistory>(getHistoriesInternal());
 		PropertyComparator.sort(sortedHistories, new MutableSortDefinition("name", true, true));
 		return Collections.unmodifiableList(sortedHistories);
 	}
-	
+
 	public void addHistory(JobHistory histories) {
 		getHistoriesInternal().add(histories);
 	}

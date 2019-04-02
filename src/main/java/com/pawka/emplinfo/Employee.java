@@ -1,38 +1,38 @@
 package main.java.com.pawka.emplinfo;
 
 public class Employee {
-	private int employee_id;
-	
-	private String employee_name;
-	private String employee_surname;
+	private int id;
+
+	private String name;
+	private String surname;
 	private String patronymic;
-	
+
 	private String address;
-	
+
 	private Education education;
-	
+
 	public int getId() {
-		return employee_id;
+		return id;
 	}
 
-	public void setId(int employee_id) {
-		this.employee_id = employee_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
-		return employee_name;
+		return name;
 	}
 
-	public void setName(String employee_name) {
-		this.employee_name = employee_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getSurname() {
-		return employee_surname;
+		return surname;
 	}
 
-	public void setSurname(String employee_surname) {
-		this.employee_surname = employee_surname;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getPatronymic() {
@@ -57,7 +57,7 @@ public class Employee {
 
 	public void setEducation(Education education) {
 		this.education = education;
-	}	
-	
-	
+	}
+
+
 }

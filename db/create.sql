@@ -82,11 +82,12 @@ create table if not exists JOB_HISTORY (
 );
 
 create table if not exists DIVISION_POSITION (
+    div_pos_id int not null auto_increment unique,
     division_id int not null,
     position_id int not null,
     number_positions int not null,
 
-    primary key(division_id, position_id),
+    primary key(div_pos_id),
     foreign key(division_id)
         references DIVISIONS(division_id)
         on delete cascade,
@@ -96,8 +97,7 @@ create table if not exists DIVISION_POSITION (
 );
 
 create table if not exists DIVISION_POSITION_EMPLOYEE (
-    division_id int not null,
-    position_id int not null,
+    div_pos_id int not null,
     job_history_id int not null,
 
     foreign key (division_id, position_id)

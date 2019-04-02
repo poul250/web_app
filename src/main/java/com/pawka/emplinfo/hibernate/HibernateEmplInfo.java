@@ -22,19 +22,17 @@ public class HibernateEmplInfo implements EmplInfo {
 
 	@Override
 	public Collection<Division> getDivisions() {
-		return sessionFactory.getCurrentSession().createQuery("select * from DIVISION order by  division_name").list();
+		return sessionFactory.getCurrentSession().createQuery("select * from DIVISION order by division_name").list();
 	}
 
 	@Override
 	public Collection<Employee> getEmployees() {
-		// TODO Auto-generated method stub
-		return null;
+		return sessionFactory.getCurrentSession().createQuery("select * from EMPLOYEE order by (surname, name)").list();
 	}
 
 	@Override
 	public Collection<Employee> getEmployees(Division division) {
-		// TODO Auto-generated method stub
-		return null;
+		return sessionFactory.getCurrentSession().createQuery("select * from EMPLOYEE ");
 	}
 
 	@Override

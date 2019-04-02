@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="true" default-lazy="false">
+
+    <class name="main.java.com.pawka.emplinfo.Duty" table="DUTY">
+		<id name="id" column="duty_id">
+			<generator class="identity"/>
+		</id>
+		<property name="Name" column="duty_name"/>
+		<property name="description" column="description"/>
+	</class>
+
+    <class name="main.java.com.pawka.emplinfo.Education" table="EDUCATION">
+        <id name="id" table="education_id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" table="education_name"/>
+    </class>
+
+    <class name="main.java.com.pawka.emplinfo.Position" table="POSITION">
+        <id name="id" table="position_id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" table="position_name"/>
+        <set name="duties" table="POSITION_DUTY">
+            <key column="position_id"/>
+            <many-to-many column="duty_id" class="main.java.com.pawka.emplinfo.Duty"/>
+        </set>
+    </class>
+
+    <class name="main.java.com.pawka.emplinfo.Employee" table="EMPLOYEE">
+        <id name="id" column="employee_id">
+            <generator class="identity">
+        </id>
+        <property name="name" column="name"/>
+        <property name="surname" column="surname"/>
+        <property name="patronymic" column="patronymic"/>
+        <property name="address" column="address"/>
+        <many-to-one name="education" column="education_id" class="main.java.com.pawka.emplinfo.Education"/>
+    </class>
+
+    <class name="main.java.com.pawka.emplinfo.JobHistory" table="JOB_HISTORY">
+        <id name="id" column="job_history_id">
+            <generator name="identity"/>
+        </id>
+        <property name="date_start" column="date_start"/>
+        <property name="date_finish" column="date_finish"/>
+        <many-to-one name="employee" column="employee_id" class="main.java.com.pawka.emplinfo.Employee"/>
+        <many-to-one name="division" column="division_id" class="main.java.com.pawka.emplinfo.Division"/>
+        <many-to-one name="position" column="position_id" class="main.java.com.pawka.emplinfo.Position"/>
+    </class>
+
+    <class name="main.java.com.pawka.emplinfo.DivPos" table="DIVISION_POSITION">
+        <property name="number_positions" column="number_positions"/>
+        <many-to-one name="division" column="division_id" class="main.java.com.pawka.emplinfo.Division"/>
+        <many-to-one name="position" column="position_id" class="main.java.com.pawka.emplinfo.Position"/>
+        <set name="histories" table="DIVISION_POSITION_EMPLOYEE">
+            <key column="div_pod_id"/>
+            <many-to-many column="job_history_id" class="main.java.com.pawka.emplinfo.JobHistory"/>
+        </set>
+    </class>
+
+    <class name="main.java.com.pawka.emplinfo.Division" table="DIVISION">
+        <id name="id" column="division_id">
+            <generator class="identity">
+        </id>
+        <property name="name" column="division_name"/>
+        <many-to-one name="director" column="director_id" class="main.java.com.pawka.emplinfo.Employee"/>
+        <many-to-one name="parent" column="parent_division_id" class="main.java.com.pawka.emplinfo.Division"/>
+        <set name="divPoses" table="DIVISION_POSITION">
+            <key column="division_id"/>
+            <one-to-many class="main.java.com.pawka.emplinfo.Position"/>
+        </set>
+    </class>
+
+</hibernate-mapping>

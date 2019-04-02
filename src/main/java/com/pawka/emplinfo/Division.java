@@ -51,4 +51,25 @@ public class Division {
 	public void setDirector(Employee director) {
 		this.director = director;
 	}
+	
+	protected Set<DivPos> getDivPosesInternal() {
+		if (this.divPoses == null) {
+			this.divPoses = new HashSet<DivPos>();
+		}
+		return this.divPoses;
+	}
+	
+	protected void setDivPosesInternal(Set<DivPos> divPoses) {
+		this.divPoses = divPoses;
+	}
+	
+	public List<DivPos> getDivPoses() {
+		List<DivPos> sortedDivPoses = new ArrayList<DivPos>(getDivPosesInternal());
+		PropertyComparator.sort(sortedDivPoses, new MutableSortDefinition("name", true, true));
+		return Collections.unmodifiableList(sortedDivPoses);
+	}
+	
+	public void addDivPos(DivPos divPos) {
+		getDivPosesInternal().add(divPos);
+	}
 }

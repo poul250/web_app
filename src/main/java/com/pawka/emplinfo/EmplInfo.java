@@ -7,11 +7,9 @@ public interface EmplInfo {
 	
 	Collection<Employee> getEmployees();
 	
-	Collection<Employee> getEmployees(Division division);
+	Collection<Employee> getEmployees(int division_id);
 	
-	Collection<Employee> getEmployees(Position position);
-	
-	Collection<JobHistory> getHistory(Employee employee);
+	Collection<JobHistory> getHistory(int employee_id);
 	
 	Employee loadEmployee(int id);
 	
@@ -19,10 +17,10 @@ public interface EmplInfo {
 	void storeEmployee(Employee employee);
 	
 	// appoint employee on a new position in division
-	void appointment(DivPos divPos, Employee employee);
+	void appointment(int divPos_id, int employee_id);
 
 	// delete employee from database
-	void deleteEmployee(Employee employee);
+	void deleteEmployee(int employee_id);
 	
 	// load division by id
 	Division loadDivision(int id);

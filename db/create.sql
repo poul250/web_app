@@ -85,7 +85,6 @@ create table if not exists DIVISION_POSITION (
     div_pos_id int not null auto_increment unique,
     division_id int not null,
     position_id int not null,
-    number_positions int not null,
 
     primary key(div_pos_id),
     foreign key(division_id)
@@ -107,3 +106,9 @@ create table if not exists DIVISION_POSITION_EMPLOYEE (
         references JOB_HISTORY(job_history_id)
         on delete cascade
 );
+
+create trigger delete_employee after delete on employee
+for each row begin
+    delete from DIVISION_POSITION_EMPLOYEE where  job_history_id in
+        (select job_history_id from JOB_HISTORY where employee_id = old.employee_id);
+end;

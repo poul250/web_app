@@ -53,7 +53,6 @@
     </class>
 
     <class name="main.java.com.pawka.emplinfo.DivPos" table="DIVISION_POSITION">
-        <property name="number_positions" column="number_positions"/>
         <many-to-one name="division" column="division_id" class="main.java.com.pawka.emplinfo.Division"/>
         <many-to-one name="position" column="position_id" class="main.java.com.pawka.emplinfo.Position"/>
         <set name="histories" table="DIVISION_POSITION_EMPLOYEE">

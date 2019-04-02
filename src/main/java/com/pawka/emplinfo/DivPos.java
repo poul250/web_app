@@ -2,6 +2,7 @@ package main.java.com.pawka.emplinfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,8 +15,6 @@ public class DivPos {
 	private Division division;
 
 	private Position position;
-
-	private int numberPositions;
 
 	private Set<JobHistory> histories;
 
@@ -43,16 +42,11 @@ public class DivPos {
 		this.position = position;
 	}
 
-	public int getNumberPositions() {
-		return numberPositions;
-	}
-
-	public void setNumberPositions(int numberPositions) {
-		this.numberPositions = numberPositions;
-	}
-
 	protected Set<JobHistory> getHistoriesInternal() {
-		return histories;
+		if (this.histories == null) {
+			this.histories = new HashSet<JobHistory>();
+		}
+		return this.histories;
 	}
 
 	protected void setHistoriesInternal(Set<JobHistory> histories) {

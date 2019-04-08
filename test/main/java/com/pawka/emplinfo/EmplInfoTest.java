@@ -2,7 +2,6 @@ package main.java.com.pawka.emplinfo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.Collection;
 import java.util.HashSet;

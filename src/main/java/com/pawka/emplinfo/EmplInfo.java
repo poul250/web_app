@@ -7,6 +7,8 @@ public interface EmplInfo {
 	
 	Collection<Employee> getEmployees();
 	
+	Collection<Education> getEducations();
+	
 	Collection<Employee> getEmployees(int division_id);
 	
 	Collection<JobHistory> getHistory(int employee_id);
@@ -15,9 +17,6 @@ public interface EmplInfo {
 	
 	// store new employee or update existing
 	void storeEmployee(Employee employee);
-	
-	// appoint employee on a new position in division
-	void appointment(int divPos_id, int employee_id);
 
 	// delete employee from database
 	void deleteEmployee(int employee_id);
@@ -28,8 +27,12 @@ public interface EmplInfo {
 	// store new division or update existing
 	void storeDivision(Division division);
 	
+	Position loadPosition(int id);
+	
 	// create new position or update existing
 	void storePosition(Position position);
+	
+	DivPos loadDivisionPosition(int id);
 	
 	// store new DivPos or update existing
 	void storeDivisionPosition(DivPos divPos);

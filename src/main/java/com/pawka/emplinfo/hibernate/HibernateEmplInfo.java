@@ -1,6 +1,9 @@
 package main.java.com.pawka.emplinfo.hibernate;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,85 +16,104 @@ import main.java.com.pawka.emplinfo.EmplInfo;
 import main.java.com.pawka.emplinfo.Employee;
 import main.java.com.pawka.emplinfo.JobHistory;
 import main.java.com.pawka.emplinfo.Position;
+import main.java.com.pawka.emplinfo.Education;
 
 @Repository
 @Transactional
 public class HibernateEmplInfo implements EmplInfo {
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Division> getDivisions() {
-		return sessionFactory.getCurrentSession().createQuery("select * from DIVISION order by division_name").list();
+		return sessionFactory.getCurrentSession().createQuery("from Division division order by division.name").list();
 	}
 
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Employee> getEmployees() {
-		return sessionFactory.getCurrentSession().createQuery("select * from EMPLOYEE order by (surname, name)").list();
+		return sessionFactory.getCurrentSession().createQuery("from Employee employee order by employee.surname, employee.name").list();
+	}
+	
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Education> getEducations() {
+		return sessionFactory.getCurrentSession().createQuery("from Education education order by education.name").list();
 	}
 
 	@Override
-	public Collection<Employee> getEmployees(Division division) {
-		return sessionFactory.getCurrentSession().createQuery("select * from EMPLOYEE ");
+	public Collection<Employee> getEmployees(int division_id) {
+		Division div = (Division) sessionFactory.getCurrentSession().load(Division.class, division_id);
+		List<DivPos> divPoses = div.getDivPoses();
+		Set<Employee> employees = new HashSet<Employee>();
+		for (DivPos dp : divPoses) {
+			List<JobHistory> histories = dp.getHistories();
+			for (JobHistory jh : histories) {
+				employees.add(jh.getEmployee());
+			}
+		}
+		return employees;
 	}
-
+	
+	@Transactional(readOnly = true)
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
-	public Collection<Employee> getEmployees(Position position) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<JobHistory> getHistory(int employee_id) {
+		return sessionFactory.getCurrentSession().createQuery("from JobHistory history where history.employee.id = :employee_id")
+				.setString("employee_id", employee_id + "%").list();
 	}
 
-	@Override
-	public Collection<JobHistory> getHistory(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	@Transactional(readOnly = true)
 	@Override
 	public Employee loadEmployee(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (Employee) sessionFactory.getCurrentSession().load(Employee.class, id);
 	}
 
 	@Override
 	public void storeEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().merge(employee);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public void appointment(DivPos divPos, Employee employee) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteEmployee(Employee employee) {
-		// TODO Auto-generated method stub
+	public void deleteEmployee(int employee_id) {
+		sessionFactory.getCurrentSession().createQuery("delete from JobHistory history where history.employee.id = :employee_id")
+			.setString(":employee_id", employee_id + "%");
 		
 	}
 
 	@Override
 	public Division loadDivision(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (Division) sessionFactory.getCurrentSession().load(Division.class, id);
 	}
 
 	@Override
 	public void storeDivision(Division division) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().merge(division);
 	}
-
+	
 	@Override
 	public void storePosition(Position position) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().merge(position);
 	}
 
 	@Override
 	public void storeDivisionPosition(DivPos divPos) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().merge(divPos);
+	}
+
+	@Override
+	public Position loadPosition(int id) {
+		return (Position) sessionFactory.getCurrentSession().load(Position.class, id);
+	}
+
+	@Override
+	public DivPos loadDivisionPosition(int id) {
+		return (DivPos) sessionFactory.getCurrentSession().load(DivPos.class, id);
 	}
 }

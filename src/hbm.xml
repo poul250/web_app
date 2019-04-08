@@ -19,7 +19,7 @@
         <property name="name" table="education_name"/>
     </class>
 
-    <class name="main.java.com.pawka.emplinfo.Position" table="POSITION">
+    <class name="main.java.com.pawka.emplinfo.Position" table="POSITIONS">
         <id name="id" table="position_id">
             <generator class="identity"/>
         </id>

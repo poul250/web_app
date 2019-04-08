@@ -1,0 +1,9 @@
+drop table if exists DIVISION_POSITION_EMPLOYEE;
+drop table if exists DIVISION_POSITION;
+drop table if exists JOB_HISTORY;
+drop table if exists POSITION_DUTY;
+drop table if exists DIVISION;
+drop table if exists EMPLOYEE;
+drop table if exists POSITIONS;
+drop table if exists EDUCATION;
+drop table if exists DUTY;
